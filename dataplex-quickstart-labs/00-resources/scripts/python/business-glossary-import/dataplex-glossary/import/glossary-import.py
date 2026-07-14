@@ -617,7 +617,10 @@ def create_dataplex_metadata_job(
     glossary_name
 ):
     try:
-        credentials, _ = google.auth.default()
+        credentials, _ = google.auth.default(scopes=[
+            'https://www.googleapis.com/auth/cloud-platform',
+            'https://www.googleapis.com/auth/spreadsheets'
+        ])
         service = build('dataplex', 'v1', credentials=credentials)
         parent = f"projects/{project_id}/locations/{location_id}"
         metadata_job_body = {
@@ -654,7 +657,10 @@ def create_dataplex_metadata_job(
 
 def poll_operation(operation_name, poll_interval=10, max_polls=60):
     """Polls a Long Running Operation until it's done."""
-    credentials, _ = google.auth.default()
+    credentials, _ = google.auth.default(scopes=[
+        'https://www.googleapis.com/auth/cloud-platform',
+        'https://www.googleapis.com/auth/spreadsheets'
+    ])
     service = build('dataplex', 'v1', credentials=credentials)
     for i in range(max_polls):
         try:
